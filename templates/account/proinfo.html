@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}我的项目信息{% endblock %}
+{% block content %}
+    <h1 class="text-center">项目信息</h1>
+    <a class="text-center" href="{% url 'account:edit_my_pro_information' %}">修改</a>
+    <table class="table table-sm">
+    <tr>
+        <td>学号：</td>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>导师：</td>
+        <td>{{ userproinfo.tutor }}</td>
+    </tr>
+    <tr>
+        <td>项目名称：</td>
+        <td>{{ userproinfo.pro_name }}</td>
+    </tr>
+    </table>
+{% endblock %}

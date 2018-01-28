@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}我的基本信息{% endblock %}
+{% block content %}
+    <h1 class="text-center">基本信息</h1>
+    <a class="text-center" href="{% url 'account:edit_my_information' %}">修改</a>
+    <table class="table table-sm">
+    <tr>
+        <td>学号：</td>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>姓名：</td>
+        <td>{{ userinfo.name }}</td>
+    </tr>
+    <tr>
+        <td>性别：</td>
+        <td>{{ userinfo.sex }}</td>
+    </tr>
+    <tr>
+        <td>学院：</td>
+        <td>{{ userinfo.institute }}</td>
+    </tr>
+    <tr>
+        <td>专业：</td>
+        <td>{{ userinfo.major }}</td>
+    </tr>
+    <tr>
+        <td>班级：</td>
+        <td>{{ userinfo.classID }}</td>
+    </tr>
+    <tr>
+        <td>手机：</td>
+        <td>{{ userinfo.phone }}</td>
+    </tr>
+    <tr>
+        <td>email：</td>
+        <td>{{ userinfo.email }}</td>
+    </tr>
+    </table>
+{% endblock %}

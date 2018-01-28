@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
+    <style>
+        #login_form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 290px;
+            height: 200px;
+            margin-left: -145px;
+            margin-top: -150px;
+        }
+    </style>
+</head>
+<body>
+<div id="login_div">
+    <form action="." method="post" id="login_form">
+        {% csrf_token %}
+        <h1 style="text-align: center">登录</h1>
+        <hr>
+        <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">
+            <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <input type="text" name="username" id="name" class="form-control" placeholder="用户名（学号）">
+        </div>
+        <br>
+        <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">
+            <span class="glyphicon glyphicon-lock"></span>
+        </span>
+            <input type="password" name="password" class="form-control" placeholder="密码">
+        </div>
+        <br>
+        <input type="submit" style="width:290px;" class="btn btn-default" value="提交">
+        <br>
+        <hr>
+        <b>提示:</b>
+        <p>初始密码默认为学号后六位</p>
+        {#        <a href="/admin/login">管理员登录</a>#}
+    </form>
+
+</div>
+</body>
+</html>
