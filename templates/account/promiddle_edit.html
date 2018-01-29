@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中期报告</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.min.css">
+    {#    <script type="text/javascript" src="/static/js/jquery.formLocalStorage.js"></script>#}
+    <link rel="stylesheet" href="/static/js/theme/default/laydate.css?v=5.0.8"
+          id="layuicss-laydate">
+    <script type="text/javascript" src="/static/js/laydate.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/FileSaver.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.wordexport.js"></script>
+    <style>
+        pre {
+            white-space: pre-wrap; /* css-3 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+            word-break: break-all;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form id="info" action="." method="post">
+        {% csrf_token %}
+        | 基本信息：
+        <table id="t1" class="table">
+            <tbody>
+            <tr>
+                <td>项目编号</td>
+                <td>{{ promiddle_form.pro_num }}</td>
+                <td>项目名称</td>
+                <td>{{ userproinfo.pro_name }}</td>
+                <td>项目负责人</td>
+                <td>{{ userinfo.name }}</td>
+            </tr>
+            <tr>
+                <td>负责人学号</td>
+                <td>{{ userinfo.user }}</td>
+                <td>负责人联系电话</td>
+                <td>{{ userinfo.phone }}</td>
+                <td>项目组成员</td>
+                <td>{{ promiddle_form.pro_mems }}</td>
+            </tr>
+            <tr>
+                <td>指导老师</td>
+                <td>{{ userproinfo.tutor }}</td>
+                <td>项目起止期限</td>
+                <td>{{ promiddle_form.pro_stime }}</td>
+                <td>{{ promiddle_form.pro_etime }}</td>
+                <td>{{ promiddle_form.pro_endtime }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="d1">
+            | 项目具体信息：<br>
+            项目进度与阶段性成果说明（项目整体安排及目前进度说明、项目组成员自主完成的工作与取得的阶段性成果）<br>
+            {{ promiddle_form.pro_schedule }}<br>
+            实验资源使用情况(使用了哪些实验室、使用次数、使用总时数及设备使用情况等)<br>
+            {{ promiddle_form.pro_source }}<br>
+            经费使用情况(用于材料、元件和书籍的购买及路费等的支出情况，费用报销及垫付情况等)<br>
+            {{ promiddle_form.pro_money }}<br>
+            项目难点（目前存在的问题与困难）<br>
+            {{ promiddle_form.pro_difficulties }}<br>
+            对实验中心、指导老师的建议(开放时间、元器件提供、实验设备、大型仪器设备及技术支持等)<br>
+            {{ promiddle_form.pro_advice }}<br>
+            项目变更信息（研究名称或内容、实施方案、项目成员、项目完成时间、指导教师等方面的调整与变动）没有变更请填“无”<br>
+            {{ promiddle_form.pro_change }}<br>
+            后期计划（后期任务及实施方案）<br>
+            {{ promiddle_form.pro_plan }}<br>
+            团队协作（项目组成员合作、讨论、交流情况以及项目实施过程中成员各方面的收获）<br>
+            {{ promiddle_form.pro_harvest }}<br>
+        </div>
+        <input hidden name="status" id="status" value="0">
+        <p style="color:red">【注】提交后无法更改！</p>
+        <input type="submit" class="btn btn-primary btn-lg" value="保存" onclick="javascript:mysave()">
+        <input type="submit" class="btn btn-primary btn-lg" value="提交" onclick="javascript:mysubmit()">
+        <button type="button" id="close" class="btn btn-primary btn-lg">关闭</button>
+    </form>
+
+
+    {#<button type="button" id="exportword">导出word</button>#}
+    {#    <section id="model_section" class="container"></section>#}
+
+</div>
+<script>
+{#    laydate.render({#}
+{#        elem: '#time1' //指定元素#}
+{#    });#}
+{#    laydate.render({#}
+{#        elem: '#time2' //指定元素#}
+{#    });#}
+{#    laydate.render({#}
+{#        elem: '#time3' //指定元素#}
+{#    });#}
+    var mysave = function () {
+        $('#status').val('1');
+    };
+    var mysubmit = function () {
+        $('#status').val('2');
+    };
+    $('#close').click(function () {
+        window.location.href = "{% url 'account:account_home' %}"
+    });
+</script>
+</body>
+</html>

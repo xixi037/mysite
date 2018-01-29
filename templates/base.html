@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'panel:panel_home' %}">Home <span
+                        <a class="nav-link" href="{% url 'account:account_home' %}">Home <span
                                 class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
@@ -34,32 +34,32 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             申请书
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/apply">在线填写</a>
+                            <a class="dropdown-item" href="{% url 'account:my_pro_apply' %}">在线填写</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink3" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             中期报告
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/middle">在线填写</a>
+                            <a class="dropdown-item" href="{% url 'account:my_pro_middle' %}">在线填写</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink4" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             结题报告
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/conclude">在线填写</a>
+                            <a class="dropdown-item" href="{% url 'account:my_pro_conclude' %}">在线填写</a>
                             {#                        <a class="dropdown-item" href="#">下载模板</a>#}
-                            <a class="dropdown-item" href="/upload_conclude">上传文件</a>
+                            <a class="dropdown-item" href="{% url 'account:upload_conclude' %}">上传文件</a>
                         </div>
                     </li>
                 </ul>
@@ -108,9 +108,9 @@
 {#    var alertvoid = function () {#}
 {#        alert('项目信息可修改日期已截止！如需修改，请联系相关负责人！');#}
 {#    };#}
-{#    var logout = function(){#}
-{#        window.location.href = "{% url 'account:user_logout' %}"#}
-{#    }#}
+    var logout = function(){
+        window.location.href = "{% url 'account:user_logout' %}"
+    }
 </script>
 {% block script %}{% endblock %}
 </body>

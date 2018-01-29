@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}上传文件{% endblock %}
+{% block content %}
+    <div class="container">
+        实验报告
+        <form enctype="multipart/form-data" action="." method="post">
+            {% csrf_token %}
+            <input type="file" accept="application/msword" name="experiment_file" id="file">
+            {#            <input type="button" id="sub" value="提交">#}
+            <input type="submit" class="btn btn-primary btn-sm" value="提交">
+        </form>
+        <p style="color:red">{{ status1 }}</p>
+        <hr>
+        研究报告
+        <form enctype="multipart/form-data" action="." method="post">
+            {% csrf_token %}
+            <input type="file" accept="application/msword" name="research_file" id="file">
+            <input type="submit" class="btn btn-primary btn-sm" value="提交">
+        </form>
+        <p style="color:red">{{ status2 }}</p>
+        <hr>
+        压缩附件
+        <form enctype="multipart/form-data" action="." method="post">
+            {% csrf_token %}
+            <input type="file" accept="application/x-zip-compressed application/octet-stream" name="compressed_file"
+                   id="file">
+            <input type="submit" class="btn btn-primary btn-sm" value="提交">
+        </form>
+        <p style="color:red">{{ status3 }}</p>
+    </div>
+{% endblock %}

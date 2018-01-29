@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>结题报告</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/static/js/laydate.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/FileSaver.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.wordexport.js"></script>
+    <style>
+        pre {
+            white-space: pre-wrap; /* css-3 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+            word-break: break-all;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a class="text-center" href="{% url 'account:edit_my_pro_conclude' %}">修改</a>
+    <form id="info">
+        | 基本信息：
+        <table id="t1" class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>项目编号</td>
+                <td>{{ proconclude.pro_num }}</td>
+                <td>项目名称</td>
+                <td>{{ userproinfo.pro_name }}</td>
+                <td>立项时间</td>
+                <td>{{ proconclude.pro_time }}</td>
+            </tr>
+            <tr>
+                <td>负责人</td>
+                <td>{{ userinfo.name }}</td>
+                <td>负责人手机号码</td>
+                <td>{{ userinfo.phone }}</td>
+                <td>指导教师</td>
+                <td>{{ userproinfo.tutor }}</td>
+            </tr>
+            </tbody>
+        </table>
+        | 负责人信息：
+        <table id="t2" class="table table-bordered">
+            <tbody>
+            <tr>
+                <td>学号</td>
+                <td>{{ userinfo.user }}</td>
+                <td>民族</td>
+                <td>{{ proconclude.leader_ethnicity }}</td>
+                <td>出生日期</td>
+                <td>{{ proconclude.leader_birth }}</td>
+            </tr>
+            <tr>
+                <td>所在单位</td>
+                <td>深圳大学</td>
+                <td>通讯地址</td>
+                <td>{{ proconclude.leader_address }}</td>
+                <td>电子邮箱</td>
+                <td>{{ userinfo.email }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table id="t3" class="table table-bordered">
+            | 项目参与人信息：
+            <tbody>
+            <tr>
+                <th>姓名</th>
+                <th>学号</th>
+                <th>所在学院</th>
+                <th>专业及班级</th>
+                <th>项目分工</th>
+            </tr>
+            <tr>
+                <td>{{ userinfo.name }}</td>
+                <td>{{ userinfo.user }}</td>
+                <td>{{ userinfo.institute }}</td>
+                <td>{{ userinfo.major }}{{ userinfo.classID }}</td>
+                <td>{{ proconclude.leader_job }}</td>
+            </tr>
+            <tr>
+                <td>{{ proconclude.mem1_name }}</td>
+                <td>{{ proconclude.mem1_stuID }}</td>
+                <td>{{ proconclude.mem1_institute }}</td>
+                <td>{{ proconclude.mem1_major_class }}</td>
+                <td>{{ proconclude.mem1_job }}</td>
+            </tr>
+            <tr>
+                <td>{{ proconclude.mem2_name }}</td>
+                <td>{{ proconclude.mem2_stuID }}</td>
+                <td>{{ proconclude.mem2_institute }}</td>
+                <td>{{ proconclude.mem2_major_class }}</td>
+                <td>{{ proconclude.mem2_job }}</td>
+            </tr>
+            <tr>
+                <td>{{ proconclude.mem3_name }}</td>
+                <td>{{ proconclude.mem3_stuID }}</td>
+                <td>{{ proconclude.mem3_institute }}</td>
+                <td>{{ proconclude.mem3_major_class }}</td>
+                <td>{{ proconclude.mem3_job }}</td>
+            </tr>
+            <tr>
+                <td>{{ proconclude.mem4_name }}</td>
+                <td>{{ proconclude.mem4_stuID }}</td>
+                <td>{{ proconclude.mem4_institute }}</td>
+                <td>{{ proconclude.mem4_major_class }}</td>
+                <td>{{ proconclude.mem4_job }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="d1">
+            | 项目具体信息：<br>
+            项目实验工作人时数 {{ proconclude.pro_hours }}<br>
+            （项目实验工作人时数指项目组成员进入实验室开展项目实验工作的总人时数<br>
+            项目实验工作人时数=人数×实验小时数，实验小时数应与各实验室工作记录本中记录相符）<br>
+            项目起止时间
+            {{ proconclude.pro_period }}<br>
+            项目完成情况
+            {{ proconclude.pro_status }}<br>
+            开展项目所用实验室 <br>
+            {{ proconclude.pro_lab }}<br>
+            本项目使用主要仪器设备及耗材情况 <br>
+            {{ proconclude.pro_instrument }}<br>
+            项目总结 <br>
+            {{ proconclude.pro_sum }}<br>
+        </div>
+        | 经费决算表
+        <table id="t4" class="table table-bordered">
+            <tbody>
+            <tr>
+                <th>项目</th>
+                <th>金额（元）</th>
+                <th>备注</th>
+            </tr>
+            <tr>
+                <td>经费收入</td>
+                <td>{{ proconclude.money_in }}</td>
+                <td>{{ proconclude.money_in_remark }}</td>
+            </tr>
+            <tr>
+                <td>实验耗材费</td>
+                <td>{{ proconclude.money_consume }}</td>
+                <td>{{ proconclude.money_consume_remark }}</td>
+            </tr>
+            <tr>
+                <td>指导老师实验津贴费</td>
+                <td>{{ proconclude.money_allowance }}</td>
+                <td>{{ proconclude.money_allowance_remark }}</td>
+            </tr>
+            <tr>
+                <td>其他</td>
+                <td>{{ proconclude.money_other }}</td>
+                <td>{{ proconclude.money_other_remark }}</td>
+            </tr>
+            <tr>
+                <td>合计</td>
+                <td>{{ proconclude.money_total }}</td>
+                <td>{{ proconclude.money_total_remark }}</td>
+            </tr>
+            <tr>
+                <td>经费结余</td>
+                <td>{{ proconclude.money_rest }}</td>
+                <td>{{ proconclude.money_rest_remark }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" id="close" class="btn btn-primary btn-lg">关闭</button>
+    </form>
+
+</div>
+<script>
+    $('#close').click(function () {
+        window.location.href = "{% url 'account:account_home' %}"
+    });
+</script>
+</body>
+</html>

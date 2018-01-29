@@ -1,0 +1,101 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}我的主页{% endblock %}</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/js/theme/default/laydate.css?v=5.0.8" id="layuicss-laydate">
+    <script type="text/javascript" src="/static/js/laydate.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="javascript:home()">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:manage_userlist()">管理用户信息</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        提交记录
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="javascript:apply_record()">项目申请</a>
+                        <a class="dropdown-item" href="javascript:middle_record()">中期报告</a>
+                        <a class="dropdown-item" href="javascript:conclude_record()">结题报告</a>
+                        <a class="dropdown-item" href="javascript:files_record()">其他文件</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        修改状态
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="javascript:change_mode()">修改提交模式</a>
+                        <a class="dropdown-item" href="javascript:change_date()">申报截止日期</a>
+                        <a class="dropdown-item" href="/admin/chgpwd">修改密码</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">发送邮件</a>{#"javascript:send_email()"#}
+                </li>
+            </ul>
+                <button id="cancel" class="btn btn-outline-primary my-2 my-sm-0">注销</button>
+        </div>
+    </div>
+</nav>
+{% block headline %}{% endblock %}
+<div class="container">{% block content %}{% endblock %}</div>
+<script>
+    var home = function () {
+        window.location.href = "/admin/base";
+    };
+    var manage_userlist = function () {
+        window.location.href = "/admin/base/userlist";
+    };
+    var apply_record = function () {
+        window.location.href = "/admin/base/apply_infolist";
+    };
+    var middle_record = function () {
+        window.location.href = "/admin/base/middle_infolist";
+    };
+    var conclude_record = function () {
+        window.location.href = "/admin/base/conclude_infolist";
+    };
+    var files_record = function () {
+        window.location.href = "/admin/base/files_infolist";
+    };
+    var change_mode = function () {
+        window.location.href = "/admin/base/status";
+    };
+    var change_date = function () {
+        window.location.href = "/admin/base/date";
+    };
+    {#    var send_email = function () {#}
+    {#        window.location.href = "/admin/send_email";#}
+    {#    }#}
+    $('#cancel').click(function () {
+        $.ajax({
+            url: '/cancel',
+            data: $('#table2').serialize(),
+            type: "GET",
+            success: function (data) {
+                alert('注销成功！');
+                location.reload();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

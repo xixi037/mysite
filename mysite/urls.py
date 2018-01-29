@@ -21,7 +21,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^$', views.panel_home, name="panel_home"),
-    url(r'^home/', include('panel.urls',namespace='panel',app_name='panel')),
+    url(r'^manager/', include('manager.urls', namespace='manager', app_name='manager')),
     url(r'^account/', include('account.urls',namespace='account',app_name='account')),
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 
