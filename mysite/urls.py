@@ -18,10 +18,15 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from mysite import views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^$', views.panel_home, name="panel_home"),
     url(r'^manager/', include('manager.urls', namespace='manager', app_name='manager')),
     url(r'^account/', include('account.urls',namespace='account',app_name='account')),
+    url(r'^get-model$',views.get_model,name="get_model"),
+    url(r'^download-file',views.download_file,name='download_file'),
+    url(r'^upload-file',views.upload_file,name='upload_file'),
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 

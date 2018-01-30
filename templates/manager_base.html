@@ -2,11 +2,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}我的主页{% endblock %}</title>
-    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.min.css">
     <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.bundle.js"></script>
     <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/static/js/theme/default/laydate.css?v=5.0.8" id="layuicss-laydate">
+    <link rel="stylesheet" href="/static/js/theme/default/laydate.css?v=5.0.8">
     <script type="text/javascript" src="/static/js/laydate.js"></script>
 </head>
 <body>
@@ -15,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="javascript:home()">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'manager:manager_home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:manage_userlist()">管理用户信息</a>
+                    <a class="nav-link" href="{% url 'manager:userlist' %}">管理用户信息</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -26,28 +27,28 @@
                         提交记录
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="javascript:apply_record()">项目申请</a>
-                        <a class="dropdown-item" href="javascript:middle_record()">中期报告</a>
-                        <a class="dropdown-item" href="javascript:conclude_record()">结题报告</a>
-                        <a class="dropdown-item" href="javascript:files_record()">其他文件</a>
+                        <a class="dropdown-item" href="{% url 'manager:apply_infolist' %}">项目申请</a>
+                        <a class="dropdown-item" href="{% url 'manager:middle_infolist' %}">中期报告</a>
+                        <a class="dropdown-item" href="{% url 'manager:conclude_infolist' %}">结题报告</a>
+                        <a class="dropdown-item" href="{% url 'manager:others_infolist' %}">其他文件</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        修改状态
+                        项目状态
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="javascript:change_mode()">修改提交模式</a>
-                        <a class="dropdown-item" href="javascript:change_date()">申报截止日期</a>
-                        <a class="dropdown-item" href="/admin/chgpwd">修改密码</a>
+                        <a class="dropdown-item" href="{% url 'manager:pro_mode' %}">提交模式</a>
+                        <a class="dropdown-item" href="{% url 'manager:pro_deadline' %}">申报截止日期</a>
+{#                        <a class="dropdown-item" href="/admin/chgpwd">修改密码</a>#}
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">发送邮件</a>{#"javascript:send_email()"#}
                 </li>
             </ul>
-                <button id="cancel" class="btn btn-outline-primary my-2 my-sm-0">注销</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" onclick="javascript:logout()">注销</button>
         </div>
     </div>
 </nav>
@@ -59,9 +60,6 @@
     };
     var manage_userlist = function () {
         window.location.href = "/admin/base/userlist";
-    };
-    var apply_record = function () {
-        window.location.href = "/admin/base/apply_infolist";
     };
     var middle_record = function () {
         window.location.href = "/admin/base/middle_infolist";
@@ -81,20 +79,9 @@
     {#    var send_email = function () {#}
     {#        window.location.href = "/admin/send_email";#}
     {#    }#}
-    $('#cancel').click(function () {
-        $.ajax({
-            url: '/cancel',
-            data: $('#table2').serialize(),
-            type: "GET",
-            success: function (data) {
-                alert('注销成功！');
-                location.reload();
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-    });
+    var logout = function(){
+        window.location.href = "{% url 'account:user_logout' %}"
+    }
 </script>
 {% block script %}{% endblock %}
 </body>

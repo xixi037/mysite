@@ -74,40 +74,6 @@
 <div class="container">{% block content %}{% endblock %}</div>
 
 <script>
-{#    $(document).ready(function () {#}
-{#        var nowDate = new Date();#}
-{#        var year = nowDate.getFullYear();#}
-{#        var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;#}
-{#        var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();#}
-{#        var today = year + month + date;#}
-{#        console.log(today);#}
-{#        $.ajax({#}
-{#            url: '/nav_status',#}
-{#            success: function (data) {#}
-{#                var status = data['status'];#}
-{#                var date = data['date'];#}
-{#                console.log(date);#}
-{#                if (date < today) {#}
-{#                    $('#proinfo').attr('href', 'javascript:alertvoid()');#}
-{#                }#}
-{#                if (status == 1) {#}
-{#                    $('#navbarDropdownMenuLink2').removeClass('disabled');#}
-{#                    $('#navbarDropdownMenuLink2').attr('href', '');#}
-{#                }#}
-{#                else if (status == 2) {#}
-{#                    $('#navbarDropdownMenuLink3').removeClass('disabled');#}
-{#                    $('#navbarDropdownMenuLink3').attr('href', '');#}
-{#                }#}
-{#                else if (status == 3) {#}
-{#                    $('#navbarDropdownMenuLink4').removeClass('disabled');#}
-{#                    $('#navbarDropdownMenuLink4').attr('href', '');#}
-{#                }#}
-{#            }#}
-{#        });#}
-{#    });#}
-{#    var alertvoid = function () {#}
-{#        alert('项目信息可修改日期已截止！如需修改，请联系相关负责人！');#}
-{#    };#}
     var logout = function(){
         window.location.href = "{% url 'account:user_logout' %}"
     }

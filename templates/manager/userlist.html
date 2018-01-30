@@ -1,0 +1,146 @@
+{% extends 'manager_base.html' %}
+{% block title %}用户信息{% endblock %}
+{% block content %}
+    <button id="download_model" class="btn btn btn-outline-secondary btn-sm">下载模板
+    </button>
+    <form id="uploadForm">
+        {% csrf_token %}
+        上传文件： <input type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                     name="file"
+                     id="file">
+        <input type="button" value="上传" class="btn btn btn-outline-secondary btn-sm" onclick="javascript:Upload_file()">
+    </form>
+    <button id="add_user" onclick="add_user()" class="btn btn-primary">添加用户</button>
+    <table class="table table-bordered">
+        {% if userinfo %}
+            <thead class="thead-light">
+            <tr>
+                <th>序号</th>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>专业</th>
+                <th>学院</th>
+                <th>班级</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            {% for info in userinfo %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ info.user }}</td>
+                    <td>{{ info.name }}</td>
+                    <td>{{ info.sex }}</td>
+                    <td>{{ info.major }}</td>
+                    <td>{{ info.institute }}</td>
+                    <td>{{ info.classID }}</td>
+                    <td>
+                        <a name="delete" href="javascript:" onclick="del_user(this,{{ info.user }})"><span
+                                class="glyphicon glyphicon-trash"></span></a>
+                    </td>
+                </tr>
+            {% empty %}
+                <p>当前无可管理的用户</p>
+            {% endfor %}
+        {% endif %}
+    </table>
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/layer/layer.js"></script>
+    <script type="text/javascript">
+        function add_user() {
+            var index = layer.open({
+                type: 1,
+                skin: "layui-layer-rim",
+                title: "新增用户",
+                area: ["250px", "300px"],
+                content: '<form class="text-center" id="info_list">学号：{{ userinfo_form.user }}<br>' +
+                '姓名：{{ userinfo_form.name }}<br>性别：{{ userinfo_form.sex }}<br>专业：{{ userinfo_form.major }}' +
+                '<br>学院：{{ userinfo_form.institute }}<br>班级：{{ userinfo_form.classID }}</form>',
+                btn: ['确定', '取消'],
+
+                yes: function (index, layero) {
+                    console.log($('#info_list').serialize()),
+                        $.ajax({
+                            url: '{% url "manager:userlist" %}',
+                            type: 'POST',
+                            data: $('#info_list').serialize(),
+                            success: function (e) {
+                                if (e == "1") {
+                                    parent.location.reload();
+                                    layer.msg("good");
+                                }
+                                else {
+                                    layer.msg("该用户已存在")
+                                }
+                            }
+                        });
+
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                }
+            });
+        }
+
+        function del_user(the, user_id) {
+            if (confirm("确认删除吗？") == true) {
+                $.ajax({
+                    url: '{% url "manager:del_userlist" %}',
+                    type: "POST",
+                    data: {"user_id": user_id},
+                    success: function (e) {
+                        if (e == "2") {
+                            alert("删除失败");
+                        }
+                        else {
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+
+        }
+
+        $('#download_model').click(function () {
+            $.ajax({
+                url: '{% url "get_model" %}',
+                data: {"model": "userlist"},
+                type: "POST",
+                success: function (data) {
+                    if (data == 'error') {
+                        alert("下载模板失败！")
+                    }
+                    else {
+                        window.location.href = '/download-file?url=' + data
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+
+        function Upload_file() {
+            var formData = new FormData($("#uploadForm")[0]);
+            console.log(formData);
+            $.ajax({
+                url: '{% url 'upload_file' %}',
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (data) {
+                    alert('error');
+                    console.log(data);
+                }
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'manager_base.html' %}
+{% block title %}修改模式{% endblock %}
+{% block content %}
+<hr>
+    <form id="mode_form">
+        {% csrf_token %}
+        请选择状态<br/><br/>
+        <label><input name="mode" type="radio" value="0">不能提交</label>
+        <label><input name="mode" type="radio" value="1"/>开放申请</label>
+        <label><input name="mode" type="radio" value="2"/>开放中期 </label>
+        <label><input name="mode" type="radio" value="3"/>开放结题</label>
+    </form>
+    <button class="btn btn-default btn-sm" id="ok1">确定</button>
+
+<script>
+
+    $(document).ready(function () {
+        document.getElementsByName("mode")[{{ mode }}].checked = "checked";
+    });
+    $('#ok1').click(function () {
+        $.ajax({
+            url: '{% url "manager:pro_mode_edit" %}',
+            data: $('#mode_form').serialize(),
+            type: "GET",
+            success: function (data) {
+                alert('更改成功');
+                window.location.reload();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+</script>
+{% endblock %}

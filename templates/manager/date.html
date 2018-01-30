@@ -1,0 +1,29 @@
+{% extends 'manager_base.html' %}
+{% block title %}申报截止日期{% endblock %}
+{% block content %}
+    <form id="date_form">
+        {% csrf_token %}
+        请选择项目申报截止日期<br/><br/>
+        <input type="text" name="due_date" id="due_date" value={{ date }}>
+    </form><br>
+    <button class="btn btn-default btn-sm" id="ok">确定</button>
+<script>
+    laydate.render({
+        elem: '#due_date' //指定元素
+    });
+    $('#ok').click(function () {
+        $.ajax({
+            url: '{% url "manager:pro_deadline_edit" %}',
+            data: $('#date_form').serialize(),
+            type: "GET",
+            success: function (data) {
+                alert('更改成功');
+                window.location.reload();
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+</script>
+{% endblock %}

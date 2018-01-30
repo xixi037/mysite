@@ -1,30 +1,10 @@
 from django.db import models
 
 # Create your models here.
-class Managers(models.Model):
-    username = models.CharField(primary_key=True, max_length=255)
-    password = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'managers'
-
-
-class Members(models.Model):
-    pro_id = models.IntegerField()
-    stu_id = models.CharField(max_length=255)
-
-    class Meta:
-        managed = False
-        db_table = 'members'
 
 class Status(models.Model):
     mode = models.IntegerField()
     date = models.DateField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'status'
 
 
 

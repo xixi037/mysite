@@ -27,7 +27,9 @@ def user_login(request):
 
             if user:
                 login(request, user)
-                return HttpResponseRedirect('/home/')
+                if user.has_perm('account.add_userproinfo'):
+                    return HttpResponseRedirect('/manager/')
+                return HttpResponseRedirect('/account/')
             else:
                 return HttpResponse("账号或密码错误！")
         else:
