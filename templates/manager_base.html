@@ -45,7 +45,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">发送邮件</a>{#"javascript:send_email()"#}
+                    <a class="nav-link" href="{% url 'manager:send_email' %}">发送邮件</a>{#"javascript:send_email()"#}
                 </li>
             </ul>
                 <button class="btn btn-outline-primary my-2 my-sm-0" onclick="javascript:logout()">注销</button>
