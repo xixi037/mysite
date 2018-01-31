@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.http import HttpResponse, StreamingHttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
@@ -66,7 +67,8 @@ def upload_file(request):
             print(max_row)
             for index in range(2, max_row + 1):
                 username = str(ws['A' + str(index)].value).strip()
-                password = username[-6:]
+                row_password = 'szu'+username[-6:]
+                password = make_password(row_password)
                 name = ws['B' + str(index)].value.strip()
                 sex = ws['C' + str(index)].value.strip()
                 major = ws['D' + str(index)].value.strip()

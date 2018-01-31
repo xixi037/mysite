@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}我的主页{% endblock %}</title>
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.css">
+    <script type="text/javascript" src="/static/js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/static/Bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="javascript:home()">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        我的项目
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+{#                        {% if date %}#}
+                            <a class="dropdown-item" href="{% url 'account:index_edit_my_pro_information' %}" id="apply_for_pro">申报项目</a>
+{#                        {% else %}#}
+{#                            <a class="dropdown-item" href="javascript:alertvoid()">申报项目</a>#}
+{#                        {% endif %}#}
+{#                        <a class="dropdown-item" href="javascript:mypro()">查看我的项目</a>#}
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:index_my_information' %}">查看个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:index_password_change' %}">修改密码</a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <a class="mr-sm-2">--欢迎--{{ user.username }}</a>
+                <button class="btn btn-outline-primary my-2 my-sm-0" onclick="javascript:logout()">注销</button>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="container">{% block content %}{% endblock %}</div>
+<script>
+    $(document).ready(function () {
+            var nowDate = new Date();
+            var year = nowDate.getFullYear();
+            var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
+            var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+            var today = year + month + date;
+            console.log(today);
+            $.ajax({
+                url: '{% url "account:get_status" %}',
+                success: function (data) {
+                    var date = data['date'];
+                    console.log(date);
+                    if (date < today) {
+                        $('#apply_for_pro').attr('href', 'javascript:alertvoid()');
+                    }
+                }
+            });
+        });
+    var alertvoid = function () {
+        alert('项目申请已截止！');
+    };
+    var logout = function () {
+        window.location.href = "{% url 'account:user_logout' %}"
+    }
+</script>
+{% block script %}{% endblock %}
+</body>
+</html>

@@ -48,5 +48,37 @@
                 alert('没有选中任何选项！')
             }
         });
+        $("#modify").click(function () {
+            var data = $('#infolist').serializeArray();
+            console.log(JSON.stringify(data));
+            if (data.length > 1) {
+                $.ajax({
+                    {#                url: '/export',#}
+                    url: '{% url "manager:modify_sub_status" %}',
+                    data: {
+                        'choicelist': JSON.stringify(data),
+                        'class':"conclude"
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        if (data == 'blank') {
+                            alert('没有选择！');
+                        }
+                        else {
+                            alert("更改成功！");
+                            window.location.reload();
+                        }
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+
+                });
+            }
+            else {
+                alert('没有选中任何选项！')
+            }
+        });
     </script>
 {% endblock %}

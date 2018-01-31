@@ -45,7 +45,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'manager:send_email' %}">发送邮件</a>{#"javascript:send_email()"#}
+                    <a class="nav-link" href="{% url 'manager:send_email' %}">发送邮件</a>
                 </li>
             </ul>
                 <button class="btn btn-outline-primary my-2 my-sm-0" onclick="javascript:logout()">注销</button>
@@ -55,30 +55,6 @@
 {% block headline %}{% endblock %}
 <div class="container">{% block content %}{% endblock %}</div>
 <script>
-    var home = function () {
-        window.location.href = "/admin/base";
-    };
-    var manage_userlist = function () {
-        window.location.href = "/admin/base/userlist";
-    };
-    var middle_record = function () {
-        window.location.href = "/admin/base/middle_infolist";
-    };
-    var conclude_record = function () {
-        window.location.href = "/admin/base/conclude_infolist";
-    };
-    var files_record = function () {
-        window.location.href = "/admin/base/files_infolist";
-    };
-    var change_mode = function () {
-        window.location.href = "/admin/base/status";
-    };
-    var change_date = function () {
-        window.location.href = "/admin/base/date";
-    };
-    {#    var send_email = function () {#}
-    {#        window.location.href = "/admin/send_email";#}
-    {#    }#}
     var logout = function(){
         window.location.href = "{% url 'account:user_logout' %}"
     }

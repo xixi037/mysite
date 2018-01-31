@@ -127,14 +127,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_SSL = True
-# EMAIL_HOST = 'smtp.qq.com'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = '492195925@qq.com' # 帐号
-# EMAIL_HOST_PASSWORD = 'cqznogtasisgbjgf'  # 密码
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = '492195925@qq.com' # 帐号
+EMAIL_HOST_PASSWORD = 'ihrnnxafheyfbjdd'  # 密码
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

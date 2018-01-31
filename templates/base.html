@@ -34,7 +34,7 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink2" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             申请书
                         </a>
@@ -43,7 +43,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink3" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             中期报告
                         </a>
@@ -52,7 +52,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink4" data-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle disabled" id="navbarDropdownMenuLink4" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
                             结题报告
                         </a>
@@ -74,6 +74,27 @@
 <div class="container">{% block content %}{% endblock %}</div>
 
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '{% url "account:get_status" %}',
+            success: function (data) {
+                var mode = data['mode'];
+
+                if (mode == 1) {
+                    $('#navbarDropdownMenuLink2').removeClass('disabled');
+                    $('#navbarDropdownMenuLink2').attr('href', '');
+                }
+                else if (mode == 2) {
+                    $('#navbarDropdownMenuLink3').removeClass('disabled');
+                    $('#navbarDropdownMenuLink3').attr('href', '');
+                }
+                else if (mode == 3) {
+                    $('#navbarDropdownMenuLink4').removeClass('disabled');
+                    $('#navbarDropdownMenuLink4').attr('href', '');
+                }
+            }
+        });
+    });
     var logout = function(){
         window.location.href = "{% url 'account:user_logout' %}"
     }

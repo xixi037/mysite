@@ -170,8 +170,8 @@
         <input hidden name="status" id="status" value="0">
         <p style="color:red">【注】提交后无法更改！</p>
         {#        <button type="button" id="save">保存</button>#}
-        <input type="submit" class="btn btn-primary btn-lg" value="保存" onclick="javascript:mysave()">
-        <input type="submit" class="btn btn-primary btn-lg" value="提交" onclick="javascript:mysubmit()">
+        <input type="submit" class="btn btn-primary btn-lg" value="保存" onclick="mysave()">
+        <input type="submit" class="btn btn-primary btn-lg" value="提交" onclick="return mysubmit()">
         <button type="button" id="close" class="btn btn-primary btn-lg">关闭</button>
     </form>
 
@@ -187,7 +187,13 @@
         $('#status').val('1');
     };
     var mysubmit = function () {
-        $('#status').val('2');
+        if(confirm("提交后无法修改，确认提交么？")==true)
+        {
+            $('#status').val('2');
+        }
+        else{
+            return false;
+        }
     };
     $('#close').click(function () {
         window.location.href = "{% url 'account:account_home' %}"

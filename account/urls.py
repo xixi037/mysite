@@ -21,4 +21,13 @@ urlpatterns = [
     url(r'^my-pro-conclude/$', views.pro_conclude_info, name="my_pro_conclude"),
     url(r'^edit-my-pro-conclude/$', views.pro_conclude_info_edit, name="edit_my_pro_conclude"),
     url(r'^upload-conclude/$', views.upload_conclude, name="upload_conclude"),
+    url(r'^index/$', views.account_index, name="account_index"),
+    url(r'^index/password-change/$', auth_views.password_change,
+        {"post_change_redirect": "/account/index/password-change-done", "template_name": "account/index_password_change.html"},
+        name='index_password_change'),
+    url(r'^index/password-change-done/$', auth_views.password_change_done,{ "template_name": "account/index_password_change_done.html"},name='index_password_change_done'),
+    url(r'^index/edit-my-pro-information/$',views.index_user_pro_info_edit,name="index_edit_my_pro_information"),
+    url(r'^index/my-information/$',views.index_user_info,name="index_my_information"),
+    url(r'^index/edit-my-information/$',views.index_user_info_edit,name="index_edit_my_information"),
+    url(r'^get_status/$',views.get_status,name="get_status")
 ]

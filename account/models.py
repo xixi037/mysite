@@ -19,8 +19,8 @@ class UserInfo(models.Model):
     class Meta:
         permissions = (
             ('add_userproinfo', u"添加用户"),  # 权限字段名称及其解释
-            ('del_userproinfo', u"删除用户"),
-            ('edit_own_customer_info', u"修改用户信息"),
+            ('delete_userproinfo', u"删除用户"),
+            ('change_userproinfo', u"修改用户信息"),
         )
 
 #项目信息

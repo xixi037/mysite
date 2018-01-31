@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^get-model$',views.get_model,name="get_model"),
     url(r'^download-file',views.download_file,name='download_file'),
     url(r'^upload-file',views.upload_file,name='upload_file'),
-] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+]
+              # + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 
