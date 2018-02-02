@@ -38,6 +38,31 @@
                 <td>{{ userinfo_form.email }}</td>
             </tr>
         </table>
-        <input type="submit" class="btn btn-primary btn-lg" value="提交">
+        <input type="submit" class="btn btn-primary btn-lg" value="提交" onclick="return check()">
     </form>
+{% endblock %}
+{% block script %}
+    <script>
+
+    var check = function(){
+        var len = $("input").length;
+        console.log(len);
+        for(var i=0;i<len;i++){
+            if($("input")[i].value==""){
+                alert("需要全部填写！");
+                return false
+            }
+        }
+        if (!$('#id_email').val().match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/)) {
+            alert('邮箱格式输入不正确！请重新输入');
+            return false;
+        }
+        else if (!$('#id_phone').val().match(/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/)) {
+            alert('手机号码格式输入不正确！请重新输入');
+            return false;
+        }
+
+    }
+
+    </script>
 {% endblock %}

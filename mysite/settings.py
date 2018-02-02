@@ -139,5 +139,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = '492195925@qq.com' # 帐号
-EMAIL_HOST_PASSWORD = 'ihrnnxafheyfbjdd'  # 密码
+# EMAIL_HOST_PASSWORD = 'ihrnnxafheyfbjdd'  # 密码
+EMAIL_HOST_PASSWORD = 'ofbpjaskndnibige'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

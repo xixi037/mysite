@@ -17,6 +17,6 @@ urlpatterns = [
     url(r'^edit-pro-mode',views.pro_mode_edit,name="pro_mode_edit"),
     url(r'^pro-deadline',views.pro_deadline,name="pro_deadline"),
     url(r'^edit-pro-deadline',views.pro_deadline_edit,name="pro_deadline_edit"),
-    url(r'^send-email',views.send_email,name="send_email"),
+    url(r'^send-email',views.send_mass_email,name="send_email"),
     url(r'^modify-sub-status',views.modify_sub_status,name="modify_sub_status"),
 ]

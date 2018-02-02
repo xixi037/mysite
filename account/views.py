@@ -9,22 +9,21 @@ import time
 
 import os
 
-from account.decorators import home_required, index_required
+from account.decorators import home_required, index_required, userinfo_required
 from account.models import UserInfo, UserProInfo, ProApply, ProMiddle, ProConclude
 from manager.models import Status
 from .forms import LoginForm, UserInfoForm, UserProInfoForm, ProApplyForm, ProMiddleForm, ProConcludeForm
 
 
 # Create your views here.
-
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 # @home_required()
 def account_home(request):
     return render(request, "account/home.html")
 
-@index_required
 @login_required(login_url='/account/login/')
+@index_required
 def account_index(request):
     return render(request,"account/index.html")
 
@@ -52,18 +51,18 @@ def user_login(request):
         login_form = LoginForm()
         return render(request, "account/login.html", {"form": login_form})
 
+@login_required(login_url='/account/login/')
 @home_required
 def password_change(request):
     return render(request, 'account/password_change.html')
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def user_info(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
     return render(request, "account/userinfo.html", {"user": user, "userinfo": userinfo})
 
-@home_required
 @login_required(login_url='/account/login/')
 def user_info_edit(request):
     user = User.objects.get(username=request.user.username)
@@ -83,15 +82,15 @@ def user_info_edit(request):
         return render(request, "account/userinfo_edit.html",
                       {"user": user, "userinfo": userinfo, "userinfo_form": userinfo_form})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def user_pro_info(request):
     user = User.objects.get(username=request.user.username)
     userproinfo = UserProInfo.objects.get(user=user)
     return render(request, "account/proinfo.html", {"user": user, "userproinfo": userproinfo})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def user_pro_info_edit(request):
     user = User.objects.get(username=request.user.username)
     userproinfo = UserProInfo.objects.get(user=user)
@@ -109,8 +108,8 @@ def user_pro_info_edit(request):
         userproinfo_form = UserProInfoForm(initial={"tutor": userproinfo.tutor, "pro_name": userproinfo.pro_name})
         return render(request, "account/proinfo_edit.html", {"user": user, "userproinfo_form": userproinfo_form})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_apply_info(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -119,8 +118,8 @@ def pro_apply_info(request):
     return render(request, "account/proapply.html",
                   {"userinfo": userinfo, "userproinfo": userproinfo, "proapply": proapply})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_apply_edit(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -263,8 +262,8 @@ def pro_apply_edit(request):
         return render(request, "account/proapply_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "proapply_form": proapply_form})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_middle_info(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -273,8 +272,8 @@ def pro_middle_info(request):
     return render(request, "account/promiddle.html",
                   {"userinfo": userinfo, "userproinfo": userproinfo, "promiddle": promiddle})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_middle_info_edit(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -314,8 +313,8 @@ def pro_middle_info_edit(request):
         return render(request, "account/promiddle_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "promiddle_form": promiddle_form})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_conclude_info(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -324,8 +323,8 @@ def pro_conclude_info(request):
     return render(request, "account/proconclude.html",
                   {"userinfo": userinfo, "userproinfo": userproinfo, "proconclude": proconclude})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def pro_conclude_info_edit(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -414,8 +413,8 @@ def pro_conclude_info_edit(request):
         return render(request, "account/proconclude_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "proconclude_form": proconclude_form})
 
-@home_required
 @login_required(login_url='/account/login/')
+@home_required
 def upload_conclude(request):
     print(request.method)
     if request.method == "POST":
@@ -457,15 +456,15 @@ def upload_conclude(request):
             return render(request, 'account/conclude_upload.html', {'status3': '上传成功！'})
     return render(request,"account/conclude_upload.html")
 
-@index_required
 @login_required(login_url='/account/login/')
+@index_required
 def index_user_info(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
     return render(request, "account/index_userinfo.html", {"user": user, "userinfo": userinfo})
 
-@index_required
 @login_required(login_url='/account/login/')
+@index_required
 def index_user_info_edit(request):
     user = User.objects.get(username=request.user.username)
     userinfo = UserInfo.objects.get(user=user)
@@ -492,9 +491,9 @@ def index_user_info_edit(request):
 #     user = User.objects.get(username=request.user.username)
 #     userproinfo = UserProInfo.objects.get(user=user)
 #     return render(request, "account/index_proinfo.html", {"user": user, "userproinfo": userproinfo})
-
-@index_required
 @login_required(login_url='/account/login/')
+@index_required
+@userinfo_required
 def index_user_pro_info_edit(request):
     user = User.objects.get(username=request.user.username)
 

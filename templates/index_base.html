@@ -14,7 +14,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="javascript:home()">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'account:account_index' %}">Home <span
+                            class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
@@ -22,12 +23,13 @@
                         我的项目
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-{#                        {% if date %}#}
-                            <a class="dropdown-item" href="{% url 'account:index_edit_my_pro_information' %}" id="apply_for_pro">申报项目</a>
-{#                        {% else %}#}
-{#                            <a class="dropdown-item" href="javascript:alertvoid()">申报项目</a>#}
-{#                        {% endif %}#}
-{#                        <a class="dropdown-item" href="javascript:mypro()">查看我的项目</a>#}
+                        {#                        {% if date %}#}
+                        <a class="dropdown-item" href="{% url 'account:index_edit_my_pro_information' %}"
+                           id="apply_for_pro">申报项目</a>
+                        {#                        {% else %}#}
+                        {#                            <a class="dropdown-item" href="javascript:alertvoid()">申报项目</a>#}
+                        {#                        {% endif %}#}
+                        {#                        <a class="dropdown-item" href="javascript:mypro()">查看我的项目</a>#}
                     </div>
                 </li>
                 <li class="nav-item">
@@ -44,26 +46,30 @@
         </div>
     </div>
 </nav>
-<div class="container">{% block content %}{% endblock %}</div>
+<div class="container">
+    {% block content %}
+
+    {% endblock %}
+</div>
 <script>
     $(document).ready(function () {
-            var nowDate = new Date();
-            var year = nowDate.getFullYear();
-            var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
-            var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
-            var today = year + month + date;
-            console.log(today);
-            $.ajax({
-                url: '{% url "account:get_status" %}',
-                success: function (data) {
-                    var date = data['date'];
-                    console.log(date);
-                    if (date < today) {
-                        $('#apply_for_pro').attr('href', 'javascript:alertvoid()');
-                    }
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;
+        var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();
+        var today = year + month + date;
+        console.log(today);
+        $.ajax({
+            url: '{% url "account:get_status" %}',
+            success: function (data) {
+                var date = data['date'];
+                console.log(date);
+                if (date < today) {
+                    $('#apply_for_pro').attr('href', 'javascript:alertvoid()');
                 }
-            });
+            }
         });
+    });
     var alertvoid = function () {
         alert('项目申请已截止！');
     };

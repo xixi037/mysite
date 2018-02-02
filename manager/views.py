@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.forms import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 import os
+from django.core.mail import send_mail
 from email.header import make_header
 
 import pythoncom
@@ -22,6 +23,7 @@ import time
 from account.models import UserInfo, UserProInfo, ProApply, ProMiddle, ProConclude
 from manager.forms import UserInfoForm
 from manager.models import Status
+from mysite.settings import DEFAULT_FROM_EMAIL
 
 
 @permission_required('account.add_userproinfo',login_url="/account/login/")
@@ -822,33 +824,57 @@ def pro_deadline_edit(request):
         return render(request, 'manager/date.html', {'date': date})
     return HttpResponse('错误！')
 
-def send_email(request):
-    pro_middle = ProMiddle.objects.exclude(status=2)
-    userinfo_list = []
-    for i in pro_middle:
-        # print(i.pro_id_id)
-        userproinfo = UserProInfo.objects.get(id=i.pro_id_id)
-        userinfo = UserInfo.objects.get(user_id=userproinfo.user_id)
-        userinfo_dic = model_to_dict(userinfo)
-        userinfo_list.append(userinfo_dic)
-    return render(request,'manager/send_email.html',{"userlist":userinfo_list})
-    # subject = '来自西西的问候'
-    #
-    # text_content = '!!!.'
-    #
-    # html_content = '<p>这是一封<strong>重要的</strong>邮件.</p>'
-    #
-    # msg = EmailMultiAlternatives(subject, text_content, '492195925@qq.com', ['492195925@qq.com'])
-    # # 553105821
-    # # msg.attach_alternative(html_content, "text/html")
-    # file = 'C:\\Users\\HP\\Desktop\\SZU\\middle\\' + '中期报告_黄淦_黄树华_基于深度学习的肌电图、脑电图分析2.doc'
-    # text = open(file, 'rb').read()
-    # file_name = os.path.basename(file)
-    # b = make_header([(file_name, 'utf-8')]).encode('utf-8')
-    # msg.attach(b, text)
-    # # msg.attach_file(file)
-    # msg.send()
-    # return HttpResponse('成功发送！')
+@csrf_exempt
+def send_mass_email(request):
+    if request.method == "GET":
+        pro_middle = ProMiddle.objects.exclude(status=2)
+        userinfo_list = []
+        for i in pro_middle:
+            # print(i.pro_id_id)
+            userproinfo = UserProInfo.objects.get(id=i.pro_id_id)
+            userinfo = UserInfo.objects.get(user_id=userproinfo.user_id)
+            userinfo_dic = model_to_dict(userinfo)
+            userinfo_list.append(userinfo_dic)
+        return render(request,'manager/send_email.html',{"userlist":userinfo_list})
+    if request.method == "POST":
+        receiver = request.POST.get("receiver","")
+        subject = request.POST.get("subject","")
+        content = request.POST.get("content","")
+        receiver_list = receiver.split(";")
+        receiver = []
+        for i in receiver_list:
+            i = i.strip()
+            if i != "" and i not in  receiver:
+                receiver.append(i)
+        print(receiver)
+        print(subject)
+        print(content)
+        # return HttpResponse('success')
+
+        # return HttpResponseRedirect('/manager/send-email')
+        # subject = '来自西西的问候'
+        #
+        # text_content = '!!!.'
+        #
+        # html_content = '<p>这是一封<strong>重要的</strong>邮件.</p>'
+        #
+        try:
+            from_email = DEFAULT_FROM_EMAIL
+            # msg = EmailMultiAlternatives(subject, content, from_email, receiver)
+        # # 553105821
+        # # msg.attach_alternative(html_content, "text/html")
+        # file = 'C:\\Users\\HP\\Desktop\\SZU\\middle\\' + '中期报告_黄淦_黄树华_基于深度学习的肌电图、脑电图分析2.doc'
+        # text = open(file, 'rb').read()
+        # file_name = os.path.basename(file)
+        # b = make_header([(file_name, 'utf-8')]).encode('utf-8')
+        # msg.attach(b, text)
+        # # msg.attach_file(file)
+        #     msg.send()
+            send_mail(subject, content, from_email, receiver, fail_silently=False)
+            return HttpResponse('成功发送！')
+        except Exception as e:
+            print(e)
+            return ('error')
 
 def modify_sub_status(request):
     if request.POST.get('choicelist','') != '':

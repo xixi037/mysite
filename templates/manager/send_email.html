@@ -3,37 +3,80 @@
 {% block content %}
     发邮件啦
     <div class="text-left">
-    <table class="table-bordered">
-        <tr>
-            <th>负责人</th>
-            <th>邮箱</th>
-            <th><input type="checkbox" id="checkAll">全选</th>
-        </tr>
-        {% for i in userlist %}
+        <table class="table-bordered">
             <tr>
-            <td>{{ i.name }}</td>
-            <td>{{ i.email }}</td>
-            <td><input type="checkbox" class="subCheckbox" name="choice{{ forloop.counter }}"
-                                       value={{ i.email }}></td>
+                <th>负责人</th>
+                <th>邮箱</th>
+                <th><input type="checkbox" id="checkAll" value="">全选</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for i in userlist %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.email }}</td>
+                    <td><input type="checkbox" class="subCheckbox" name="choice{{ forloop.counter }}"
+                               value={{ i.email }}></td>
+                </tr>
+            {% endfor %}
+        </table>
+    <button id="sure">确定</button>
     </div>
     <div class="text-right">
-    <div>
-    收件人<input style="word-break:break-all;height:20px;line-height:20px;width:620px;" value="">
-
-    </div>
-         <br>
-    <div>
-    主题<input style="word-break:break-all;height:20px;line-height:20px;width:620px;" value="">
-
-    </div>
+    <form id="email_form">
+        <div>
+            收件人<input type="text" style="word-break:break-all;height:20px;line-height:20px;width:620px;" name="receiver" id="receiver">
+        </div>
         <br>
-    <div>
-    正文
-        <textarea style="width:620px;" rows="10"></textarea>
-    </div>
+        <div>
+            主题<input type="text" style="word-break:break-all;height:20px;line-height:20px;width:620px;" name="subject">
+        </div>
+        <br>
+        <div>
+            正文
+            <textarea style="width:620px;" rows="10" name="content"></textarea>
+        </div>
+    </form>
+    <button id="send" class="text-right">确认发送</button>
     </div>
 
+{% endblock %}
+{% block script %}
+    <script>
+        $("#checkAll").click(function () {
+            var isChecked = $(this).prop("checked");
+            $(".subCheckbox").prop("checked", isChecked);
+        });
+        $("#sure").click(function(){
+            var len = $('input[type=checkbox]:checked').length;
+            var str = "";
+            for(var i=0;i<len;i++){
+                str += $('input[type=checkbox]:checked')[i].value + ";"
+            }
+            alert(str);
+            $("#receiver").val(str);
+        });
+        $("#send").click(function(){
+            var data = $("#email_form").serialize();
+{#            alert(data);#}
+{#           console.log($("#email_form").serialize());#}
+           $.ajax({
+               url:'{% url "manager:send_email" %}',
+               data:data,
+               type:'POST',
+               success:function(data){
+                   if(data=='error'){
+                       alert('发送失败！');
+                   }
+                   else{
+                       alert('发送成功！');
+                       window.location.reload();
+                   }
+
+               },
+               error:function(data){
+                   console.log(data);
+               }
+
+           })
+        });
+    </script>
 {% endblock %}
