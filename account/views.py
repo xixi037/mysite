@@ -8,6 +8,7 @@ from django.shortcuts import render
 import time
 
 import os
+from django.urls import reverse
 
 from account.decorators import home_required, index_required, userinfo_required
 from account.models import UserInfo, UserProInfo, ProApply, ProMiddle, ProConclude
@@ -18,7 +19,6 @@ from .forms import LoginForm, UserInfoForm, UserProInfoForm, ProApplyForm, ProMi
 # Create your views here.
 @login_required(login_url='/account/login/')
 @home_required
-# @home_required()
 def account_home(request):
     return render(request, "account/home.html")
 
@@ -29,7 +29,6 @@ def account_index(request):
 
 def user_login(request):
     if request.method == "POST":
-        print(check_password("szu2015222003","pbkdf2_sha256$36000$IFcWa3ysCVxd$jW+Pk9EN4ZE4uPw+jVS7W+EnSLzyw56TIqPRrOkDK6A="))
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             cd = login_form.cleaned_data
@@ -39,10 +38,13 @@ def user_login(request):
             if user:
                 login(request, user)
                 if user.has_perm('account.add_userproinfo'):
-                    return HttpResponseRedirect('/manager/')
+                    # return HttpResponseRedirect('/manager/')
+                    return HttpResponseRedirect(reverse('manager:manager_home'))
                 if not UserProInfo.objects.filter(user=user):
-                    return HttpResponseRedirect('/account/index/')
-                return HttpResponseRedirect('/account/')
+                    # return HttpResponseRedirect('/account/index/')
+                    return HttpResponseRedirect(reverse('account:account_index'))
+                # return HttpResponseRedirect('/account/')
+                return HttpResponseRedirect(reverse('account:account_home'))
             else:
                 return HttpResponse("账号或密码错误！")
         else:
@@ -76,7 +78,8 @@ def user_info_edit(request):
             userinfo.phone = userinfo_cd['phone']
             userinfo.email = userinfo_cd['email']
             userinfo.save()
-        return HttpResponseRedirect('/account/my-information/')
+        # return HttpResponseRedirect('/account/my-information/')
+        return HttpResponseRedirect(reverse('account:my_information'))
     else:
         userinfo_form = UserInfoForm(initial={"phone": userinfo.phone, "email": userinfo.email})
         return render(request, "account/userinfo_edit.html",
@@ -103,7 +106,8 @@ def user_pro_info_edit(request):
             userproinfo.tutor = userproinfo_cd['tutor']
             userproinfo.pro_name = userproinfo_cd['pro_name']
             userproinfo.save()
-        return HttpResponseRedirect('/account/my-pro-information/')
+        # return HttpResponseRedirect('/account/my-pro-information/')
+        return HttpResponseRedirect(reverse('account:my_pro_information'))
     else:
         userproinfo_form = UserProInfoForm(initial={"tutor": userproinfo.tutor, "pro_name": userproinfo.pro_name})
         return render(request, "account/proinfo_edit.html", {"user": user, "userproinfo_form": userproinfo_form})
@@ -209,7 +213,8 @@ def pro_apply_edit(request):
             proapply.leader7 = proapply_cd['leader7']
             proapply.fillin_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
             proapply.save()
-        return HttpResponseRedirect('/account/my-pro-apply/')
+        # return HttpResponseRedirect('/account/my-pro-apply/')
+        return HttpResponseRedirect(reverse('account:my_pro_apply'))
     else:
         proapply_form = ProApplyForm(initial={"pro_way": proapply.pro_way, "tutor_area": proapply.tutor_area,
                                               "tutor_phone": proapply.tutor_phone, "tutor_email": proapply.tutor_email,
@@ -258,7 +263,8 @@ def pro_apply_edit(request):
                                               "budget_service_reason": proapply.budget_service_reason
                                               })
         if proapply.status == '2':
-            return HttpResponseRedirect('/account/my-pro-apply/')
+            # return HttpResponseRedirect('/account/my-pro-apply/')
+            return HttpResponseRedirect(reverse('account:my_pro_apply'))
         return render(request, "account/proapply_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "proapply_form": proapply_form})
 
@@ -299,7 +305,8 @@ def pro_middle_info_edit(request):
             promiddle.pro_plan = promiddle_cd["pro_plan"]
             promiddle.pro_harvest = promiddle_cd["pro_harvest"]
             promiddle.save()
-        return HttpResponseRedirect('/account/my-pro-middle/')
+        # return HttpResponseRedirect('/account/my-pro-middle/')
+        return HttpResponseRedirect(reverse('account:my_pro_middle'))
     else:
         promiddle_form = ProMiddleForm(
             initial={"pro_num": promiddle.pro_num, "pro_mems": promiddle.pro_mems, "pro_endtime": promiddle.pro_endtime,
@@ -309,7 +316,8 @@ def pro_middle_info_edit(request):
                      "pro_advice": promiddle.pro_advice, "pro_change": promiddle.pro_change,
                      "pro_plan": promiddle.pro_plan, "pro_harvest": promiddle.pro_harvest})
         if promiddle.status == '2':
-            return HttpResponseRedirect('/account/my-pro-middle/')
+            # return HttpResponseRedirect('/account/my-pro-middle/')
+            return HttpResponseRedirect(reverse('account:my_pro_middle'))
         return render(request, "account/promiddle_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "promiddle_form": promiddle_form})
 
@@ -381,7 +389,8 @@ def pro_conclude_info_edit(request):
             proconclude.money_rest = proconclude_cd["money_rest"]
             proconclude.money_rest_remark = proconclude_cd["money_rest_remark"]
             proconclude.save()
-        return HttpResponseRedirect('/account/my-pro-conclude/')
+        # return HttpResponseRedirect('/account/my-pro-conclude/')
+        return HttpResponseRedirect(reverse('account:my_pro_conclude'))
     else:
         proconclude_form = ProConcludeForm(
             initial={"pro_num": proconclude.pro_num, "pro_time": proconclude.pro_time,
@@ -409,7 +418,8 @@ def pro_conclude_info_edit(request):
                      "money_total": proconclude.money_total, "money_total_remark": proconclude.money_total_remark,
                      "money_rest": proconclude.money_rest, "money_rest_remark": proconclude.money_rest_remark})
         if proconclude.status == '2':
-            return HttpResponseRedirect('/account/my-pro-conclude/')
+            # return HttpResponseRedirect('/account/my-pro-conclude/')
+            return HttpResponseRedirect(reverse('account:my_pro_conclude'))
         return render(request, "account/proconclude_edit.html",
                       {"userinfo": userinfo, "userproinfo": userproinfo, "proconclude_form": proconclude_form})
 
@@ -477,7 +487,8 @@ def index_user_info_edit(request):
             userinfo.phone = userinfo_cd['phone']
             userinfo.email = userinfo_cd['email']
             userinfo.save()
-        return HttpResponseRedirect('/account/index/my-information/')
+        # return HttpResponseRedirect('/account/index/my-information/')
+        return HttpResponseRedirect(reverse('account:index_my_information'))
     else:
         userinfo_form = UserInfoForm(initial={"phone": userinfo.phone, "email": userinfo.email})
         return render(request, "account/index_userinfo_edit.html",
@@ -503,14 +514,18 @@ def index_user_pro_info_edit(request):
 
         if userproinfo_form.is_valid():
             userproinfo = UserProInfo.objects.create(user=user)
-            ProApply.objects.create(pro_id=userproinfo.id)
-            ProMiddle.objects.create(pro_id=userproinfo.id)
-            ProConclude.objects.create(pro_id=userproinfo.id)
+            # ProApply.objects.create(pro_id=userproinfo.id)
+            # ProMiddle.objects.create(pro_id=userproinfo.id)
+            # ProConclude.objects.create(pro_id=userproinfo.id)
+            ProApply.objects.create(pro_id=userproinfo)
+            ProMiddle.objects.create(pro_id=userproinfo)
+            ProConclude.objects.create(pro_id=userproinfo)
             userproinfo_cd = userproinfo_form.cleaned_data
             userproinfo.tutor = userproinfo_cd['tutor']
             userproinfo.pro_name = userproinfo_cd['pro_name']
             userproinfo.save()
-        return HttpResponseRedirect('/account/home/')
+        # return HttpResponseRedirect('/account/home/')
+        return HttpResponseRedirect(reverse('account:account_home'))
     else:
         userproinfo_form = UserProInfoForm()
         return render(request, "account/index_proinfo_edit.html", {"user": user, "userproinfo_form": userproinfo_form})
